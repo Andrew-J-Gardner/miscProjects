@@ -85,6 +85,7 @@ public:
 
 
 int main(){
+    //placeholder
     groceryPath myPath;
     groceryItem bread("bread", 3, false);
     cout <<"first items name is: " << bread.getName() << endl;
