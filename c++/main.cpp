@@ -46,8 +46,10 @@ public:
     }
     
     void removeItemFromList(int p_itemIndex){
+        groceryItem tempItem = this->listOfItems.at(p_itemIndex);
         if(this->listOfItems.size() > p_itemIndex){
             this->listOfItems.erase(listOfItems.begin() + (p_itemIndex-1));
+            cout <<endl<< "Item " <<tempItem.getName()<< " removed!";
         } else { cout << "No such item exists!" << endl; }
     }
     void removeItemFromList(groceryItem p_item){
@@ -88,43 +90,77 @@ public:
         cout <<endl<< "Highest aisle in listOfItems is: "<<highestAisle;
         return highestAisle;
     }
-
+    //Generates a grocery list sorted by aisles
     void generateLinearPath(){
-        /*
-        vector<std::string> genList = {" "};
+        int lastAisle = this->findLargestAisle();
+        vector<std::string> genList = {" "}; 
+        genList.pop_back(); //Makes the list empty, ready for use
+        
+        
         string tempStr = " ";
         int LOILength = this->listOfItems.size();
         int aisleIter = 1;
         //Sorts groceryItems by aisle
         while(genList.size() < this->listOfItems.size()){
-            if(whileIter == (LOILength-1) ) { whileIter = 0; }
-
-
-            tempStr = this->listOfItems.at().getName();
-            if(tempStr != "NuLL"){
-                genList.push_back(tempStr);
+            if(aisleIter > lastAisle) { aisleIter = 0; break; }    //if the aisleIterator is larger than the largest aisle in the list, breaks method since something went wrong
+            for(int i=0; i<LOILength; i++){
+                tempStr = this->listOfItems.at(i).getName();
+                if(this->listOfItems.at(i).getAisle() == aisleIter){
+                    if(tempStr != "NuLL"){
+                        genList.push_back(tempStr);
+                    }
+                }
             }
-
-
+            aisleIter++;
         }
-        for(i)
+        //Debug For loop
+        for(int i=0; i<genList.size(); i++){
+            cout <<endl<<genList.at(i);
+        }
         this->linearPath = genList;
     }
 
-    */
+    void printList(){
+        string printStr = " ";
+        for(int i=0; i < this->listOfItems.size(); i++){
+            printStr = this->listOfItems.at(i).getName();
+            cout << endl <<"(" << i << "): " << printStr;
+        }
+        cout << endl;
     }
+    void printGenList(){
+        string printStr = " ";
+        for(int i=0; i < this->linearPath.size(); i++){
+            printStr = this->linearPath.at(i);
+            cout << endl <<"(" << i << "): " << printStr;
+        }
+        cout << endl;
+    }
+
+
 };
 
 
 int main(){
-    //placeholder
     groceryPath myPath;
     groceryItem bread("bread", 3, false);
     groceryItem milk("milk", 8, false);
-    cout <<"first items name is: " << bread.getName() << endl;
+    groceryItem cereal("cereal", 5, false);
+    groceryItem potatoes("potatoes", 7, false);
+    groceryItem carrots("carrots", 2, false);
+    groceryItem chocolate("chocolate", 15, false);
+
     myPath.addItemToList(bread);
     myPath.addItemToList(milk);
-    cout <<"name of first item is: " << myPath.getItemAt(0).getName() <<endl;
-    cout <<"length of list: " << myPath.getListLength() <<endl;
+    myPath.addItemToList(cereal);
+    myPath.addItemToList(potatoes);
+    myPath.addItemToList(carrots);
+    myPath.addItemToList(chocolate);
+    myPath.generateLinearPath();
+    myPath.printList();
+    myPath.removeItemFromList(3);
+    myPath.printList();
+    //myPath.printGenList();
+
     myPath.findLargestAisle();
 }
